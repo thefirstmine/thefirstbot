@@ -70,7 +70,7 @@ let minutes = Math.floor(totalSeconds / 60);
    message.channel.send(embed)
   }
   if(command === "status") {
-    if(message.author.id == 347342453633712128 || message.author.id === "439223656200273932") {
+    if(message.author.id == 347342453633712128) {
     bot.user.setActivity(`${args.join(' ')}`)
     message.channel.send(':white_check_mark: Successfully changed status')
   }else{
@@ -78,7 +78,7 @@ let minutes = Math.floor(totalSeconds / 60);
   }}
 
   if(command === "resetstatus") {
-if(message.author.id == 347342453633712128 || message.author.id === "439223656200273932") {
+if(message.author.id == 347342453633712128) {
 bot.user.setActivity(`Over ${bot.guilds.size} servers | ${config.prefix}help`, {type: "WATCHING"})
 message.channel.send(':white_check_mark: Successfully reset bot status')
   }else{
@@ -86,7 +86,7 @@ message.channel.send(':white_check_mark: Successfully reset bot status')
   }}
   
  if(command === "restart") {
-if(message.author.id == 347342453633712128  || message.author.id === "439223656200273932") {
+if(message.author.id == 347342453633712128) {
 resetBot(message.channel);
 function resetBot(channel) {
 message.channel.send(' :tfmloading: Bot is restarting pls wait uwu :tfmloading: ')
@@ -216,7 +216,7 @@ message.channel.send(embed)}
   }
   
   if(command === 'helpdev'){
-    if(message.author.id == ownerID || message.author.id === "439223656200273932"){
+    if(message.author.id == ownerID){
     const embed = new Discord.RichEmbed()
 .setTitle('Developer only Commands!')
 .setDescription('**helpdev**\nWell you got pass security lol\n\n**eval**\nType in some code and the bot will do it.\n\n**restart**\nRestart the bot using this command.\n\n**status**\nUse this command to set the status of the bot.\n\n**resetstatus**\nReset the status of the bot.\n\n**servers**\nCheck what servers the bot is in!')
@@ -320,7 +320,7 @@ if(member.bannable)
 await member.ban({
 reason: `${args.join(' ')}`,
 }).then(() => {
-message.channel.send(`${message.author.username} banned ${member.username} for ${member.ban.reason}`)
+message.channel.send(`${message.author.username} banned ${user.username} for ${args.join(' ')}`)
 }).catch(err => message.channel.send(`Error: ${err}`)
 )
 }else{
@@ -629,6 +629,8 @@ if (command === "rps") {
    message.channel.send(warnSuccessfulEmbed); // Sends the warn successful embed
    message.delete(); // Deletes the command
   }
+  
+  
   
 })//bot login to application
 bot.login(process.env.TOKEN) 

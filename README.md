@@ -1,5 +1,3 @@
-# TheFirstBot
-
-This is a github repository for the Discord Bot: TheFirstBot
-***
-Made by TheFirstMine_PH#6062
+hi you have saw this text.
+this is a glitch application that is a 
+discord bot.
