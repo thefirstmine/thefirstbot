@@ -539,7 +539,10 @@ if (command === "rps") {
     const category = message.guild.channels.find(c=>c.name == "Tickets" && c.type == "category")
     if(category){
      const everyone2 = message.guild.roles.find(r=>r.name == "@everyone")
-     const ticket = await message.guild.createChannel("ticket-"+message.author.username+"-"+message.author.discriminator)
+     const ticket = await message.guild.createChannel(
+  `ticket-${message.author.username}-${message.author.discriminator}`,
+  { type: "text" }
+)
      const everyone = message.guild.roles.find(r=>r.name == "@everyone")
      const modRole = message.guild.roles.find(r=>r.name == "TicketUse")
      const botRole = message.guild.roles.find(r=>r.name == "TheFirstBot")
