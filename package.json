@@ -1,0 +1,22 @@
+{
+  "name": "thefirstbot",
+  "version": "1.0.0",
+  "description": "A utility bot made by TheFirstMine_PH.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thefirstmine/thefirstbot.git"
+  },
+  "author": "TheFirstMine_PH",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thefirstmine/thefirstbot/issues"
+  },
+  "homepage": "https://github.com/thefirstmine/thefirstbot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
+}
