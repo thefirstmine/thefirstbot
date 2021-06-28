@@ -12,7 +12,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "discord.js": "^11.5.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "request": "^2.88.0",
     "snekfetch": "^4.0.4",
     "enmap": "^5.1.0"
