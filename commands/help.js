@@ -8,6 +8,7 @@ module.exports = {
         .setTitle("TheFirstBot | Command list")
         .addField("🤡 Fun", "`flip`")
         .addField("🔧 Utilities", "`ping`, `uptime`")
+        .addField("🦀 Miscellaneous", "`about`")
         .setColor("#FCBA03")
         .setFooter("Developed by TheFirstMine_PH#6062")
         message.channel.send(helpEmbed)
