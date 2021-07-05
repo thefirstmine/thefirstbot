@@ -7,6 +7,7 @@ module.exports = {
         const helpEmbed = new Discord.MessageEmbed()
         .setTitle("TheFirstBot | Command list")
         .addField("🤡 Fun", "`flip`")
+        .addField("🛠 Moderation", "`kick`, `ban`")
         .addField("🔧 Utilities", "`ping`, `uptime`")
         .addField("🦀 Miscellaneous", "`about`")
         .setColor("#FCBA03")
