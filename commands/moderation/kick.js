@@ -1,13 +1,15 @@
 const Discord = require("discord.js")
 
 module.exports = {
-	name: 'ban',
-	description: 'Ban a member.',
+	name: 'kick',
+	description: 'Kick a member.',
+    args: true,
+    usage: "[member] <reason>",
+    category: "Moderation",
 	async execute (client, message, args) {
-        if (!message.guild.me.permissions.has("BAN_MEMBERS")) return message.reply("I can't ban members! Contact your server admin to give me the `BAN_MEMBERS` permission.")
-        if (!message.member.permissions.has("BAN_MEMBERS")) return message.reply("you can't ban members!")
-
-        if (!args.length) return message.reply("mention a user or put a user ID!")
+        if (!message.guild.me.permissions.has("KICK_MEMBERS")) return message.reply("I can't kick members! Contact your server admin to give me the `KICK_MEMBERS` permission.")
+        if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("you can't kick members!")
+        
         let target;
         if (message.mentions.users.size) {
             target = message.mentions.members.first();
@@ -21,14 +23,14 @@ module.exports = {
         if (target === message.author.username || message.author.id || message.author.username) return message.reply("you can't ban yourself!")
 
         let reason2 = args.slice(1).join(' ')
-        let reason = `Banned by ${message.author.tag} with reason "${args.slice(1).join(' ')}"`
+        let reason = `Kicked by ${message.author.tag} with reason "${args.slice(1).join(' ')}"`
 
         if(!reason2){ 
-            reason = `Banned by ${message.author.tag} with no reason provided.`
+            reason = `Kicked by ${message.author.tag} with no reason provided.`
         }
 
-        message.guild.members.ban(target, { reason }) 
+        target.kick(reason) 
 
-        message.channel.send(`Successfully banned ${target}.`)
+        message.channel.send(`Successfully kicked ${target}.`)
 	},
 };

@@ -3,6 +3,7 @@ const Discord = require("discord.js")
 module.exports = {
 	name: 'about',
 	description: 'About the bot and the developer',
+        category: "Miscellaneous",
 	execute(client, message, args) {
         const aboutEmbed = new Discord.MessageEmbed()
         .setTitle("About")
