@@ -5,8 +5,8 @@ const client = new Discord.Client({
     presence: {
      status: 'online',
      activity: {
-      name: 't!help | Finally back for a fresh restart!',
-      type: 'PLAYING',
+      name: 't!help',
+      type: 'LISTENING',
      },
     },
    });
