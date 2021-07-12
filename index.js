@@ -1,6 +1,8 @@
+require('dotenv').config()
+
 const Discord = require("discord.js");
 const fs = require("fs")
-const { prefix, token } = require('./config.json')
+const { prefix } = require('./config.json')
 const client = new Discord.Client({
     presence: {
      status: 'online',
@@ -56,4 +58,4 @@ client.on('message', message => {
 }
 
 })
-client.login(token)
+client.login(process.env.TOKEN)
