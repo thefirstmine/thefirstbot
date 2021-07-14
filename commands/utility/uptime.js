@@ -14,7 +14,7 @@ module.exports = {
 
         const uptimeEmbed = new Discord.MessageEmbed()
         .setTitle("<:uptime:859760884007436309> Bot uptime")
-        .setDescription(uptime)
+        .setDescription(`${uptime}\n\nHeroku dynos restart once every 24 hours, so you can\'t see the timer go up 1 day, you can read it about [here](https://devcenter.heroku.com/articles/dynos#restarting)`)
         .setColor("#FCBA03")
         message.channel.send(uptimeEmbed)
 	},
