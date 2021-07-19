@@ -36,7 +36,7 @@ module.exports = {
         .setDescription(statusEmoji)
         .addField("Username and tag:", target.user.tag)
         .addField("User ID:", target.user.id)
-        .addField("Joined this server at:", message.guild.joinedAt)
+        .addField("Joined this server at:", target.joinedAt)
         .addField("Joined Discord at:", target.user.createdAt)
         .addField("Roles:", target.roles.cache.map(role => role.name).join(' , '))
         .setThumbnail(target.user.displayAvatarURL())
