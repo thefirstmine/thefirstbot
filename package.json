@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/thefirstmine/thefirstbot#readme",
   "dependencies": {
+    "cpu-stat": "^2.0.1",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
+    "moment": "^2.29.1",
     "nekos.life": "^2.0.7"
   }
 }
