@@ -22,6 +22,7 @@
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
     "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
     "nekos.life": "^2.0.7"
   }
 }
