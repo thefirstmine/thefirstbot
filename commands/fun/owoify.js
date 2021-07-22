@@ -1,5 +1,4 @@
-const nekoClient = require('nekos.life')
-const neko = new nekoClient();
+const owoify = require("owoify-js").default
 const Discord = require('discord.js')
 
 module.exports = {
@@ -10,9 +9,8 @@ module.exports = {
     usage: "[text]",
 	async execute(client, message, args) {
 
-        const owoText = args.slice(0).join(' ')
-        const owoified = await neko.sfw.OwOify({text: owoText});
+        const owoText = owoify(args.slice(0).join(' '))
         
-        message.reply(owoified.owo)
+        message.reply(owoText)
 	},
 };
