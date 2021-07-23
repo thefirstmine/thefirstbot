@@ -36,7 +36,8 @@ client.on('ready', () => {
   });
 
 client.on('message', async message => {
-  const fetchprefix = await mongopref.fetch(message.guild.id);
+  const fetchprefix = await mongopref.fetch(message.guild.id)
+  .catch()
   
   if (message.content.includes(`<@!${client.user.id}>`)){
     if (fetchprefix.prefix === prefix){
