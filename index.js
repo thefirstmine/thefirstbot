@@ -13,6 +13,11 @@ const client = new Discord.Client({
     },
    });
 
+//Custom Prefix handler
+const mongopref = require("discord-mongodb-prefix");
+mongopref.setURL(process.env.MONGODB);
+mongopref.setDefaultPrefix(prefix);
+
 // Command Handler
 client.commands = new Discord.Collection();
 
@@ -30,32 +35,52 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
   });
 
-client.on('message', message => {
-  if (!message.content.startsWith(prefix) || message.author.bot || message.channel.type === 'dm') return;
-
-	const args = message.content.slice(prefix.length).trim().split(' ');
-	const commandName = args.shift().toLowerCase();
-
-	const command = client.commands.get(commandName)
-		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-
-	if (!command) return;
-
-  if (command.args && !args.length) {
-    let reply = `You didn't provide any arguments, ${message.author}!`;
+client.on('message', async message => {
+  const fetchprefix = await mongopref.fetch(message.guild.id);
   
-    if (command.usage) {
-      reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+  if (message.content.includes(`<@!${client.user.id}>`)){
+    if (fetchprefix.prefix === prefix){
+      message.reply(`My global prefix is \`${prefix}\``)
+    } else {
+      message.reply(
+        `My global prefix is \`${prefix}\` and this servers prefix is \`${fetchprefix.prefix}\``
+      )
     }
-  
-    return message.channel.send(reply);
   }
 
-  try {
-    command.execute(client, message, args);
-} catch (error) {
-    console.error(error);
-    message.reply('there was an error trying to execute that command!');
+  const prefixRegex = new RegExp(
+    `^(${prefix}|${fetchprefix.prefix})\\s*`
+  );
+  
+  if (prefixRegex.test(message.content)){
+    if (message.author.bot || message.channel.type === 'dm') return;
+  
+    const [, matchedPrefix] = message.content.match(prefixRegex);
+
+    const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
+    const commandName = args.shift().toLowerCase();
+
+    const command = client.commands.get(commandName)
+      || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+    if (!command) return;
+
+    if (command.args && !args.length) {
+      let reply = `You didn't provide any arguments, ${message.author}!`;
+    
+      if (command.usage) {
+        reply += `\nThe proper usage would be: \`${fetchprefix.prefix}${command.name} ${command.usage}\``;
+      }
+    
+      return message.channel.send(reply);
+    }
+
+    try {
+      command.execute(client, message, args);
+    } catch (error) {
+      console.error(error);
+      message.reply('there was an error trying to execute that command!');
+    }
 }
 
 })
