@@ -11,6 +11,7 @@ module.exports = {
         if (!message.member.permissions.has("MANAGE_MESSAGES")) return message.reply("you can't manage messages!")
 
         const deleteCount = parseInt(args[0])
+        if (isNaN(deleteCount)) return message.reply("enter a valid number!")
         if (deleteCount < 2 || deleteCount > 100) return message.reply("you can only delete 2 messages up to 100!")
 
         const fetched = await message.channel.messages.fetch({limit: deleteCount})
