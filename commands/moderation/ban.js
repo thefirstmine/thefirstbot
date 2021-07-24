@@ -29,7 +29,7 @@ module.exports = {
             reason = `Banned by ${message.author.tag} with no reason provided.`
         }
 
-        // message.guild.members.ban(target, { reason }) 
+        message.guild.members.ban(target, { reason }) 
 
         client.modlogs({
             Member: target,
