@@ -5,11 +5,11 @@ mongopref.setURL(process.env.MONGODB);
 module.exports = {
 	name: 'setprefix',
 	description: 'Set a custom prefix for the server!',
-    category: "Utility",
+    category: "Config",
 	args: true,
 	usage: "[new prefix]",
 	async execute(client, message, args) {
-		if (!message.member.permissions.has("MANAGE_GUILD")) return message.reply("you can't manage the server!")
+		if (!message.member.permissions.has("ADMINISTRATOR")) return message.reply("you can't configure this!")
 		const fetchprefix = await mongopref.fetch(message.guild.id);
 
 		const newprefix = args[0]

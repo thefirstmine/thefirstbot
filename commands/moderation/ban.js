@@ -20,7 +20,7 @@ module.exports = {
                 x.user.tag.toLowerCase() === args.join(' ').toLowerCase());
         }
         if (!target) return message.reply("invalid user.")
-        if (target === message.author.username || message.author.id || message.author.username) return message.reply("you can't ban yourself!")
+        if (target === message.author) return message.reply("you can't ban yourself!")
 
         let reason2 = args.slice(1).join(' ')
         let reason = `Banned by ${message.author.tag} with reason "${args.slice(1).join(' ')}"`
@@ -29,8 +29,15 @@ module.exports = {
             reason = `Banned by ${message.author.tag} with no reason provided.`
         }
 
-        message.guild.members.ban(target, { reason }) 
+        // message.guild.members.ban(target, { reason }) 
 
+        client.modlogs({
+            Member: target,
+            Action: "A member was banned!",
+            Reason: reason,
+            Moderator: message.author.tag,
+            Color: "RED"
+        }, message)
         message.channel.send(`Successfully banned ${target}.`)
 	},
 };

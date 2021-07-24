@@ -19,6 +19,14 @@ module.exports = {
         message.channel.bulkDelete(fetched)
         .catch(error => message.reply("there was an error trying to delete messages! Error: ```" + error + "```"))
         
+        client.modlogs({
+            Action: "Purged messages!",
+            Moderator: message.author.tag,
+            Color: "#FCBA03",
+            Count: deleteCount,
+            excChannel: message.channel
+        }, message)
+
         const confirmMessage = await message.reply(`deleted ${deleteCount} messages.`)
         setTimeout(() => confirmMessage.delete(), 3000);
 	},

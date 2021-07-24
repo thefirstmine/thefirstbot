@@ -20,7 +20,7 @@ module.exports = {
                 x.user.tag.toLowerCase() === args.join(' ').toLowerCase());
         }
         if (!target) return message.reply("invalid user.")
-        if (target === message.author.username || message.author.id || message.author.username) return message.reply("you can't kick yourself!")
+        if (target === message.author) return message.reply("you can't kick yourself!")
 
         let reason2 = args.slice(1).join(' ')
         let reason = `Kicked by ${message.author.tag} with reason "${args.slice(1).join(' ')}"`
@@ -31,6 +31,13 @@ module.exports = {
 
         target.kick(reason) 
 
+        client.modlogs({
+            Member: target,
+            Action: "A member was kicked!",
+            Reason: reason,
+            Moderator: message.author.tag,
+            Color: "RED"
+        }, message)
         message.channel.send(`Successfully kicked ${target}.`)
 	},
 };

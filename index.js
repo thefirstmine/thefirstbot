@@ -18,6 +18,34 @@ const mongopref = require("discord-mongodb-prefix");
 mongopref.setURL(process.env.MONGODB);
 mongopref.setDefaultPrefix(prefix);
 
+// Mongoose initialization
+const mongoose = require('mongoose')
+mongoose.connect(process.env.MONGODB,{
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+}).then(console.log("Connected to MongoDB!"))
+  .catch(console.error())
+
+// Modlogs embed structure
+const modlogsSchema = require('./models/modlogs')
+client.modlogs = async function({ Member, Action, Color, Reason, Moderator, Count, excChannel }, message) {
+  const data = await modlogsSchema.findOne({ Guild: message.guild.id });
+  if (!data) return;
+  
+  const channel = message.guild.channels.cache.get(data.Channel);
+  const logsEmbed = new Discord.MessageEmbed()
+  .setTitle(Action)
+  .setColor(Color)
+  .setDescription(`Reason: ${Reason || 'No reason was provided!'}`)
+  .addField("Moderator:", Moderator)
+
+  if (Member) logsEmbed.addField("Member that was tooked action on", `${Member.user.tag} (${Member.id})`)
+  if (Count) logsEmbed.addField("Count of messages that was deleted", Count)
+  if (excChannel) logsEmbed.addField("Where they deleted messages", excChannel)
+
+  channel.send(logsEmbed)
+}
+
 // Command Handler
 client.commands = new Discord.Collection();
 

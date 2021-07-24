@@ -17,6 +17,7 @@ module.exports = {
                         const modCmd = commands.filter(c => c.category == "Moderation")
                         const utilityCmd = commands.filter(c => c.category == "Utility")
                         const actionCmd = commands.filter(c => c.category == "Actions")
+						const configCmd = commands.filter(c => c.category === "Config")
                         
                         const helpEmbed = new Discord.MessageEmbed()
                         .setTitle("Here's a list of all my commands!")
@@ -24,6 +25,7 @@ module.exports = {
                         .addField("🤡 Fun", funCmd.map(cmd => cmd.name).join(', '))
                         .addField("🛠 Moderation", modCmd.map(cmd => cmd.name).join(', '))
                         .addField("🔧 Utility", utilityCmd.map(cmd => cmd.name).join(', '))
+						.addField("⚙ Configuration", configCmd.map(cmd => cmd.name).join(', '))
                         .addField("🦀 Miscellaneous", miscCmd.map(cmd => cmd.name).join(', '))
 						.addField("🎬 Actions", actionCmd.map(cmd => cmd.name).join(', '))
                         .setColor("#FCBA03")
