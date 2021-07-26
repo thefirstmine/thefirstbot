@@ -21,6 +21,8 @@ module.exports = {
         }
         if (!target) return message.reply("invalid user.")
         if (target === message.author) return message.reply("you can't kick yourself!")
+        if (!target.kickable) return message.reply("that member can't be kicked!")
+        if (message.guild.member(message.author).roles.highest.comparePositionTo(target.roles.highest.id) <= 0) return message.reply("you can't kick someone with a higher/equal role than you!")
 
         let reason2 = args.slice(1).join(' ')
         let reason = `Kicked by ${message.author.tag} with reason "${args.slice(1).join(' ')}"`
