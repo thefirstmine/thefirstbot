@@ -10,13 +10,13 @@ const client = new Discord.Client({
       name: 't!help',
       type: 'LISTENING',
      },
+    },ws: {
+      intents: ['GUILDS' , 'GUILD_MESSAGES', 'GUILD_PRESENCES', 'GUILD_BANS']
     },
    });
 
 //Custom Prefix handler
-const mongopref = require("discord-mongodb-prefix");
-mongopref.setURL(process.env.MONGODB);
-mongopref.setDefaultPrefix(prefix);
+const prefixSchema = require('./models/prefix')
 
 // Mongoose initialization
 const mongoose = require('mongoose')
@@ -64,25 +64,28 @@ client.on('ready', () => {
   });
 
 client.on('message', async message => {
-  const fetchprefix = await mongopref.fetch(message.guild.id)
-  .catch()
-  
+
+  if (message.author.bot || message.channel.type === 'dm') return;
+
+  const fetchprefix = (await prefixSchema.findOne({
+    guildID: message.guild.id
+  }))?.prefix ?? "t!"
+
   if (message.content.includes(`<@!${client.user.id}>`)){
-    if (fetchprefix.prefix === prefix){
+    if (fetchprefix === prefix){
       message.reply(`My global prefix is \`${prefix}\``)
     } else {
       message.reply(
-        `My global prefix is \`${prefix}\` and this servers prefix is \`${fetchprefix.prefix}\``
+        `My global prefix is \`${prefix}\` and this servers prefix is \`${fetchprefix}\``
       )
     }
   }
 
   const prefixRegex = new RegExp(
-    `^(${prefix}|${fetchprefix.prefix})\\s*`
+    `^(${prefix}|${fetchprefix})\\s*`
   );
   
   if (prefixRegex.test(message.content)){
-    if (message.author.bot || message.channel.type === 'dm') return;
   
     const [, matchedPrefix] = message.content.match(prefixRegex);
 
@@ -98,7 +101,7 @@ client.on('message', async message => {
       let reply = `You didn't provide any arguments, ${message.author}!`;
     
       if (command.usage) {
-        reply += `\nThe proper usage would be: \`${fetchprefix.prefix}${command.name} ${command.usage}\``;
+        reply += `\nThe proper usage would be: \`${fetchprefix}${command.name} ${command.usage}\``;
       }
     
       return message.channel.send(reply);
