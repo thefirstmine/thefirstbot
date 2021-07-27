@@ -1,6 +1,5 @@
 const Discord = require("discord.js")
-const mongopref = require("discord-mongodb-prefix");
-mongopref.setURL(process.env.MONGODB); 
+const Schema = require('../../models/prefix')
 
 module.exports = {
 	name: 'setprefix',
@@ -10,11 +9,16 @@ module.exports = {
 	usage: "[new prefix]",
 	async execute(client, message, args) {
 		if (!message.member.permissions.has("ADMINISTRATOR")) return message.reply("you can't configure this! You need the `ADMINISTRATOR` permission to configure this.")
-		const fetchprefix = await mongopref.fetch(message.guild.id);
 
 		const newprefix = args[0]
 		if (newprefix === "\u005c") return message.reply("you can\'t use that as a prefix for technical reasons.")
-		await mongopref.changeprefix(message.guild.id, newprefix); 
-		return message.channel.send(`**Successfully change prefix from "${fetchprefix.prefix}" to "${newprefix}"**`)
+		Schema.findOne({ guildID: message.guild.id }, async (err, data) => {
+            if(data) data.delete();
+            new Schema({
+                guildID: message.guild.id,
+                prefix: args[0],
+            }).save();
+            message.channel.send(`**Successfully change prefix from "${client.prefix}" to "${newprefix}"**`)
+        })
 	},
 };

@@ -70,6 +70,7 @@ client.on('message', async message => {
   const fetchprefix = (await prefixSchema.findOne({
     guildID: message.guild.id
   }))?.prefix ?? "t!"
+  client.prefix = fetchprefix
 
   if (message.content.includes(`<@!${client.user.id}>`)){
     if (fetchprefix === prefix){
