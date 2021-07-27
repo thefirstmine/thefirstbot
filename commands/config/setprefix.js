@@ -9,7 +9,7 @@ module.exports = {
 	args: true,
 	usage: "[new prefix]",
 	async execute(client, message, args) {
-		if (!message.member.permissions.has("ADMINISTRATOR")) return message.reply("you can't configure this!")
+		if (!message.member.permissions.has("ADMINISTRATOR")) return message.reply("you can't configure this! You need the `ADMINISTRATOR` permission to configure this.")
 		const fetchprefix = await mongopref.fetch(message.guild.id);
 
 		const newprefix = args[0]

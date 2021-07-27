@@ -9,7 +9,7 @@ module.exports = {
 	usage: "[channel]",
     aliases: ['set-logs'],
 	async execute(client, message, args) {
-        // if (!message.member.permissions.has("ADMINISTRATOR")) return message.reply("you can't configure this!")
+        if (!message.member.permissions.has("ADMINISTRATOR")) return message.reply("you can't configure this!")
 
         const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0])
         if(!channel.permissionsFor(client.user.id).has("VIEW_CHANNEL")) return message.reply("I can't access that channel!")
