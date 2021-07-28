@@ -18,7 +18,7 @@
   "homepage": "https://github.com/thefirstmine/thefirstbot#readme",
   "dependencies": {
     "cpu-stat": "^2.0.1",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.0.0-dev.30a58dc.1627430624",
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
     "moment": "^2.29.1",

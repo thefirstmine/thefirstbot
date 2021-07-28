@@ -7,7 +7,6 @@ module.exports = {
         category: "Miscellaneous",
         usage: "<command name>",
 	execute(client, message, args) {
-		const data = [];
 		const { commands } = message.client;
 
 		if (!args.length) {
@@ -31,14 +30,13 @@ module.exports = {
                         .setColor("#FCBA03")
                         .setFooter("`[]` means required and `<>` means optional.")
 
-			return message.author.send(helpEmbed)
+			return message.author.send({embeds: [helpEmbed]})
 				.then(() => {
 					if (message.channel.type === 'dm') return;
-					message.reply('I\'ve sent you a DM with all my commands!');
+					message.reply({content: 'I\'ve sent you a DM with all my commands!'});
 				})
 				.catch(error => {
-					console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-					message.reply('it seems like I can\'t DM you!');
+					message.reply({content: 'It seems like I can\'t DM you!'});
 				});
 		}
 
@@ -46,16 +44,18 @@ module.exports = {
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
-			return message.reply('that\'s not a valid command!');
+			return message.reply({content: 'That\'s not a valid command!'});
 		}
 
-		data.push(`**Name:** ${command.name}`);
+		const embed = new Discord.MessageEmbed()
+		.setTitle(`**Name:** ${command.name}`)
+		.setColor("#FCBA03")
 
-		if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
-		if (command.description) data.push(`**Description:** ${command.description}`);
-        if (command.category) data.push(`**Category:** ${command.category}`)
-		if (command.usage) data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
+		if (command.aliases) embed.addField(`**Aliases:** `, `${command.aliases.join(', ')}`);
+		if (command.description) embed.addField(`**Description:** `, `${command.description}`);
+        if (command.category) embed.addField(`**Category:** `, `${command.category}`)
+		if (command.usage) embed.addField(`**Usage:** `, `${prefix}${command.name} ${command.usage}`)
 
-		message.channel.send(data, { split: true });
+		message.channel.send({embeds: [embed]});
 	}, 
 };

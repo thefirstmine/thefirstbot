@@ -13,6 +13,6 @@ module.exports = {
         const ballText = args.slice(0).join(' ')
         const ballAnswered = await neko.sfw['8Ball']({text: ballText});
         
-        await message.reply(ballAnswered.response)
+        await message.reply({content: ballAnswered.response})
 	},
 };

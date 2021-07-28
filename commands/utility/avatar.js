@@ -7,7 +7,7 @@ module.exports = {
     aliases: ['pfp'],
 	execute(client, message, args) {
         if(!args.length){
-            target = message.guild.member(message.author)
+            target = message.guild.members.cache.get(message.author.id)
         } else if (message.mentions.users.size) {
             target = message.mentions.members.first();
         } else if (args[0].match(/^([0-9]{15,21})$/)) {
@@ -26,6 +26,6 @@ module.exports = {
         .setImage(target.user.avatarURL({dynamic: true, size: 1024}))
         .setColor("#FCBA03")
 
-        message.channel.send(avatarEmbed)
+        message.channel.send({embeds: [avatarEmbed]})
 	},
 };

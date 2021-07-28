@@ -11,6 +11,6 @@ module.exports = {
         .setColor("#FCBA03")
         .setThumbnail("https://cdn.discordapp.com/attachments/856788504297078814/861179931718844446/thefirstbot.png")
         
-        message.channel.send(aboutEmbed)
+        message.channel.send({embeds: [aboutEmbed]})
 	},
 };

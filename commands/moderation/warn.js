@@ -20,7 +20,8 @@ module.exports = {
         }
         if (!target) return message.reply("invalid user.")
         if (target === message.author) return message.reply("you can't warn yourself!")
-        if (message.guild.member(message.author).roles.highest.comparePositionTo(target.roles.highest.id) <= 0) return message.reply("you can't warn someone with a higher/equal role than you!")
+        const author = message.guild.members.cache.get(message.author.id)
+        if (author.roles.highest.comparePositionTo(target.roles.highest.id) <= 0) return message.reply("you can't warn someone with a higher/equal role than you!")
 
         let reason2 = args.slice(1).join(' ')
         let reason = `Warned by ${message.author.tag} with reason "${args.slice(1).join(' ')}"`

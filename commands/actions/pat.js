@@ -25,6 +25,6 @@ module.exports = {
         .setColor("#FCBA03")
         .setImage(pat.url)
         
-        message.channel.send(patEmbed)
+        message.channel.send({embeds: [patEmbed]})
 	},
 };

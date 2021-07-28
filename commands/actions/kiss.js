@@ -25,6 +25,6 @@ module.exports = {
         .setColor("#FCBA03")
         .setImage(kiss.url)
         
-        message.channel.send(kissEmbed)
+        message.channel.send({embeds: [kissEmbed]})
 	},
 };

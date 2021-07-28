@@ -25,6 +25,6 @@ module.exports = {
         .setColor("#FCBA03")
         .setImage(slap.url)
         
-        message.channel.send(slapEmbed)
+        message.channel.send({embeds: [slapEmbed]})
 	},
 };

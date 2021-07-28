@@ -11,10 +11,10 @@ module.exports = {
         .setColor("#FCBA03")
         .setThumbnail("https://cdn.discordapp.com/attachments/856788504297078814/861179931718844446/thefirstbot.png")
         
-        message.author.send(inviteEmbed)
-        .then(message.reply("I've sent it in your DM's!"))
+        message.author.send({embeds: [inviteEmbed]})
+        .then(message.reply({content: "I've sent it in your DM's!"}))
         .catch(error => {
-            message.reply('it seems like I can\'t DM you!');
+            message.reply({content: 'It seems like I can\'t DM you!'});
         });
 	},
 };

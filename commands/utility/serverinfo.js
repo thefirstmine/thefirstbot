@@ -6,17 +6,18 @@ module.exports = {
 	description: 'Check info about the server!',
     category: "Utility",
 	async execute (client, message, args) {
+        const owner = message.guild.members.cache.get(message.guild.ownerId)
+
         const embed = new Discord.MessageEmbed()
         .setTitle(message.guild.name)
-        .setThumbnail(message.guild.iconURL())
+        .setThumbnail(message.guild.iconURL({dynamic: true}))
         .setDescription('Server Info!')
-        .addField('Server ID', message.guild.id)
-        .addField('Server Owner', message.guild.owner)
-        .addField('Server Region', message.guild.region)
-        .addField('You joined at', message.member.joinedAt)
-        .addField('Created at', message.guild.createdAt)
+        .addField('Server ID', `${message.guild.id}`)
+        .addField('Server Owner', `${owner.user.tag}`)
+        .addField('You joined at', `${message.member.joinedAt}`)
+        .addField('Created at', `${message.guild.createdAt}`)
         .setColor('#fcba03')
-        message.channel.send(embed)
+        message.channel.send({embeds: [embed]})
 
 	},
 };

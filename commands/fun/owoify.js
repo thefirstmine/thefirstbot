@@ -11,6 +11,6 @@ module.exports = {
 
         const owoText = owoify(args.slice(0).join(' '))
         
-        message.reply(owoText, {split: true})
+        message.reply({content: owoText, split: true})
 	},
 };

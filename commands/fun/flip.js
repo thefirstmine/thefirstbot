@@ -7,6 +7,6 @@ module.exports = {
             const flip = ['Heads.', 'Tails.'];
             return flip[Math.floor(Math.random()*flip.length)];
         }
-        message.reply(`Flip! I call ${randomFlip()}`)
+        message.reply({content: `Flip! I call ${randomFlip()}`})
 	},
 };

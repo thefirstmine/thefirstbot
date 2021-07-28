@@ -25,6 +25,6 @@ module.exports = {
         .setColor("#FCBA03")
         .setImage(tickle.url)
         
-        message.channel.send(tickleEmbed)
+        message.channel.send({embeds: [tickleEmbed]})
 	},
 };

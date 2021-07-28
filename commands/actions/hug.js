@@ -25,6 +25,6 @@ module.exports = {
         .setColor("#FCBA03")
         .setImage(hug.url)
         
-        message.channel.send(hugEmbed)
+        message.channel.send({embeds: [hugEmbed]})
 	},
 };

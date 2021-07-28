@@ -3,16 +3,8 @@ require('dotenv').config()
 const Discord = require("discord.js");
 const fs = require("fs")
 const { prefix } = require('./config.json')
-const client = new Discord.Client({
-    presence: {
-     status: 'online',
-     activity: {
-      name: 't!help',
-      type: 'LISTENING',
-     },
-    },ws: {
-      intents: ['GUILDS' , 'GUILD_MESSAGES', 'GUILD_PRESENCES', 'GUILD_BANS']
-    },
+const client = new Discord.Client({ 
+      intents: ['GUILDS' , 'GUILD_MESSAGES', 'GUILD_PRESENCES', 'GUILD_BANS'],
    });
 
 //Custom Prefix handler
@@ -40,10 +32,10 @@ client.modlogs = async function({ Member, Action, Color, Reason, Moderator, Coun
   .addField("Moderator:", Moderator)
 
   if (Member) logsEmbed.addField("Member that was tooked action on", `${Member.user.tag} (${Member.id})`)
-  if (Count) logsEmbed.addField("Count of messages that was deleted", Count)
-  if (excChannel) logsEmbed.addField("Where they deleted messages", excChannel)
+  if (Count) logsEmbed.addField("Count of messages that was deleted", Count.toString()) // Count
+  if (excChannel) logsEmbed.addField("Where they deleted messages", excChannel) //excChannel
 
-  channel.send(logsEmbed)
+  channel.send({embeds: [logsEmbed]})
 }
 
 // Command Handler
@@ -60,10 +52,11 @@ for (const folder of commandFolders) {
 }
 
 client.on('ready', () => {
+    client.user.setActivity('t!help', { type: 'LISTENING' });
     console.log(`Logged in as ${client.user.tag}!`);
   });
 
-client.on('message', async message => {
+client.on('messageCreate', async message => {
 
   if (message.author.bot || message.channel.type === 'dm') return;
 
@@ -112,7 +105,7 @@ client.on('message', async message => {
       command.execute(client, message, args);
     } catch (error) {
       console.error(error);
-      message.reply('there was an error trying to execute that command!');
+      message.reply('There was an error trying to execute that command!');
     }
 }
 
