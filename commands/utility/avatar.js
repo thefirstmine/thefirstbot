@@ -1,4 +1,5 @@
 const Discord = require("discord.js")
+const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
 	name: 'avatar',
@@ -20,12 +21,29 @@ module.exports = {
 
         const avatarEmbed = new Discord.MessageEmbed()
         .setTitle(`${target.user.username}\'s avatar!`)
-        .setDescription(
-        `[Default link](${target.user.avatarURL({dynamic: true, size: 1024})})\nOther image formats:\n[.webp](${target.user.avatarURL({format: "webp", size: 1024})}) | [.png](${target.user.avatarURL({format: "png", size: 1024})}) | [.jpg](${target.user.avatarURL({format: "jpg", size: 1024})})`
-        )
         .setImage(target.user.avatarURL({dynamic: true, size: 1024}))
         .setColor("#FCBA03")
 
-        message.channel.send({embeds: [avatarEmbed]})
+        const row = new MessageActionRow()
+        .addComponents(
+            new MessageButton()
+                .setLabel('Default Link')
+                .setStyle('LINK')
+                .setURL(`${target.user.avatarURL({dynamic: true, size: 1024})}`),
+            new MessageButton()
+                .setLabel('.webp')
+                .setStyle('LINK')
+                .setURL(`${target.user.avatarURL({format: "webp", size: 1024})}`),
+            new MessageButton()
+                .setLabel('.png')
+                .setStyle('LINK')
+                .setURL(`${target.user.avatarURL({format: "png", size: 1024})}`),
+            new MessageButton()
+                .setLabel('.jpg')
+                .setStyle('LINK')
+                .setURL(`${target.user.avatarURL({format: "jpg", size: 1024})}`),
+        );
+
+        message.channel.send({embeds: [avatarEmbed], components: [row]})
 	},
 };
