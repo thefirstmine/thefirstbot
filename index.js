@@ -39,7 +39,12 @@ client.modlogs = async function({ Member, Action, Color, Reason, Moderator, Coun
 }
 
 // Command Handler
+const { glob } = require('glob')
+const { promisify } = require('util')
+const globPromise = promisify(glob)
+
 client.commands = new Discord.Collection();
+client.slashCommands = new Discord.Collection();
 
 const commandFolders = fs.readdirSync('./commands');
 
@@ -51,10 +56,66 @@ for (const folder of commandFolders) {
 	}
 }
 
-client.on('ready', () => {
+// const slashFolders = async () => {await globPromise(`${process.cwd()}/SlashCommands/*/*.js`)} 
+/*
+const arrayOfSlashCommands = [];
+
+slashFolders.map((value) => {
+  const file = require(value);
+  if(!file?.name) return;
+
+  client.slashCommands.set(file.name, file);
+  arrayOfSlashCommands.push(file)
+});*/
+
+;(async() => {
+  const slashFolders = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
+  
+  const arrayOfSlashCommands = [];
+  
+  slashFolders.map((value) => {
+    const file = require(value);
+    if(!file?.name) return;
+  
+    client.slashCommands.set(file.name, file);
+    arrayOfSlashCommands.push(file)
+  });
+  })()
+
+
+client.on('ready', async () => {
+    // await client.applications.commands.set() //for use for global use (1 hour caching process)
+    const slashFolders = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
+  
+    const arrayOfSlashCommands = [];
+    
+    slashFolders.map((value) => {
+      const file = require(value);
+      if(!file?.name) return;
+    
+      client.slashCommands.set(file.name, file);
+      arrayOfSlashCommands.push(file)
+    });
+    await client.guilds.cache.get('856412585862496266').commands.set(arrayOfSlashCommands)
+
     client.user.setActivity('t!help', { type: 'LISTENING' });
     console.log(`Logged in as ${client.user.tag}!`);
   });
+
+client.on('interactionCreate', async interaction => {
+  if(interaction.isCommand()) {
+    await interaction.defer().catch( (error) => {console.error(error)} );
+
+    const cmd = client.slashCommands.get(interaction.commandName);
+    if(!cmd) return interaction.followUp({content: 'An error has occured'});
+
+    const args = [];
+    interaction.options.data.map((x) => {
+      args.push(x.value);
+    })
+    cmd.run(client, interaction, args);
+  }
+})
 
 client.on('messageCreate', async message => {
 
