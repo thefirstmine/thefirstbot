@@ -11,39 +11,37 @@ module.exports = {
 		const { commands } = message.client;
 
 		if (!args.length) {
-                        
-                        const funCmd = commands.filter(c => c.category == "Fun")
-                        const miscCmd = commands.filter(c => c.category == "Miscellaneous")
-                        const modCmd = commands.filter(c => c.category == "Moderation")
-                        const utilityCmd = commands.filter(c => c.category == "Utility")
-                        const actionCmd = commands.filter(c => c.category == "Actions")
-						const configCmd = commands.filter(c => c.category === "Config")
-                        
-                        const helpEmbed = new Discord.MessageEmbed()
-                        .setTitle("Here's a list of all my commands!")
-                        .setDescription(`You can send \`${prefix}help [command name]\` to get info on a specific command!`)
-                        .addField("🤡 Fun", funCmd.map(cmd => cmd.name).join(', '))
-                        .addField("🛠 Moderation", modCmd.map(cmd => cmd.name).join(', '))
-                        .addField("🔧 Utility", utilityCmd.map(cmd => cmd.name).join(', '))
-						.addField("⚙ Configuration", configCmd.map(cmd => cmd.name).join(', '))
-                        .addField("🦀 Miscellaneous", miscCmd.map(cmd => cmd.name).join(', '))
-						.addField("🎬 Actions", actionCmd.map(cmd => cmd.name).join(', '))
-                        .setColor("#FCBA03")
-                        .setFooter("`[]` means required and `<>` means optional.")
 
-						const row = new MessageActionRow()
-						.addComponents(
-							new MessageButton()
-								.setLabel('Invite me!')
-								.setStyle('LINK')
-								.setEmoji('🤖')
-								.setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=261926808822&scope=bot%20applications.commands`),
-							new MessageButton()
-								.setLabel('Support server.')
-								.setStyle('LINK')
-								.setEmoji('❗')
-								.setURL('https://discord.gg/T8UhYVNEs2'),
-						);
+			const category = function ({ Category }) {
+				const filter = commands.filter(c => c.category === Category)
+				return filter.map(c => c.name).join(', ');
+			}
+			
+			const helpEmbed = new Discord.MessageEmbed()
+			.setTitle("Here's a list of all my commands!")
+			.setDescription(`You can send \`${prefix}help [command name]\` to get info on a specific command!`)
+			.addField("🤡 Fun", `${category({Category: "Fun"})}`)
+			.addField("🛠 Moderation", `${category({Category: "Moderation"})}`)
+			.addField("🔧 Utility", `${category({Category: "Utility"})}`)
+			.addField("⚙ Configuration", `${category({Category: "Config"})}`)
+			.addField("🦀 Miscellaneous", `${category({Category: "Miscellaneous"})}`)
+			.addField("🎬 Actions", `${category({Category: "Actions"})}`)
+			.setColor("#FCBA03")
+			.setFooter("`[]` means required and `<>` means optional.")
+
+			const row = new MessageActionRow()
+			.addComponents(
+				new MessageButton()
+					.setLabel('Invite me!')
+					.setStyle('LINK')
+					.setEmoji('🤖')
+					.setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=261926808822&scope=bot%20applications.commands`),
+				new MessageButton()
+					.setLabel('Support server.')
+					.setStyle('LINK')
+					.setEmoji('❗')
+					.setURL('https://discord.gg/T8UhYVNEs2'),
+			);
 
 			return message.author.send({embeds: [helpEmbed], components: [row]})
 				.then(() => {

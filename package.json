@@ -21,6 +21,7 @@
     "discord.js": "^13.0.0-dev.30a58dc.1627430624",
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
+    "glob": "^7.1.7",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "mongoose": "^5.13.3",

@@ -56,33 +56,6 @@ for (const folder of commandFolders) {
 	}
 }
 
-// const slashFolders = async () => {await globPromise(`${process.cwd()}/SlashCommands/*/*.js`)} 
-/*
-const arrayOfSlashCommands = [];
-
-slashFolders.map((value) => {
-  const file = require(value);
-  if(!file?.name) return;
-
-  client.slashCommands.set(file.name, file);
-  arrayOfSlashCommands.push(file)
-});*/
-
-;(async() => {
-  const slashFolders = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
-  
-  const arrayOfSlashCommands = [];
-  
-  slashFolders.map((value) => {
-    const file = require(value);
-    if(!file?.name) return;
-  
-    client.slashCommands.set(file.name, file);
-    arrayOfSlashCommands.push(file)
-  });
-  })()
-
-
 client.on('ready', async () => {
     // await client.applications.commands.set() //for use for global use (1 hour caching process)
     const slashFolders = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
