@@ -1,24 +1,27 @@
-const Discord = require("discord.js")
+const Discord = require('discord.js');
+const { CommandInteraction, Client} = require('discord.js');
 
 module.exports = {
-	name: 'userinfo',
-	description: 'Check info about a member!',
-    usage: "[member]",
-    category: "Utility",
-	async execute (client, message, args) {
-        let target;
-
-        if(!args.length){
-            target = message.guild.members.cache.get(message.author.id)
-        } else if (message.mentions.users.size) {
-            target = message.mentions.members.first();
-        } else if (args[0].match(/^([0-9]{15,21})$/)) {
-            target = message.guild.members.cache.get(args[0]);
-        } else {
-            target = message.guild.members.cache.find(x => x.user.username.toLowerCase() === args.join(' ').toLowerCase() ||
-                x.user.tag.toLowerCase() === args.join(' ').toLowerCase());
+    name: "userinfo",
+    description: "Check the info of member! Or check your own.",
+    options: [
+        {
+            name: 'user',
+            description: 'Check someone elses info! Otherwise leave blank.',
+            type: 'USER',
+            required: false
         }
-        if (!target) return message.reply("invalid user.")
+    ],
+
+    run: async(client, interaction, args) => {
+        let [user] = args;
+        let target;
+        
+        if (!user) {
+            target = interaction.member
+        } else {
+            target = interaction.guild.members.cache.get(user)
+        }
 
         let statusEmoji;
         if (target.presence === null){
@@ -31,6 +34,7 @@ module.exports = {
             statusEmoji = '<:online:865218105353306133>'
         }
 
+
         const userEmbed = new Discord.MessageEmbed()
         .setTitle("User info")
         .setDescription(statusEmoji)
@@ -42,8 +46,6 @@ module.exports = {
         .setThumbnail(target.user.displayAvatarURL({dynamic: true}))
         .setColor("#FCBA03")
 
-        message.channel.send({embeds: [userEmbed]})
-
-
-	},
-};
+        interaction.editReply({embeds: [userEmbed]})
+    }
+}

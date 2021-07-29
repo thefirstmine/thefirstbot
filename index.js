@@ -57,19 +57,21 @@ for (const folder of commandFolders) {
 }
 
 client.on('ready', async () => {
-    // await client.applications.commands.set() //for use for global use (1 hour caching process)
-    const slashFolders = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
+  const slashFolders = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
   
-    const arrayOfSlashCommands = [];
+  const arrayOfSlashCommands = [];
+  
+  slashFolders.map((value) => {
+    const file = require(value);
+    if(!file?.name) return;
     
-    slashFolders.map((value) => {
-      const file = require(value);
-      if(!file?.name) return;
-    
-      client.slashCommands.set(file.name, file);
-      arrayOfSlashCommands.push(file)
-    });
-    await client.guilds.cache.get('856412585862496266').commands.set(arrayOfSlashCommands)
+    client.slashCommands.set(file.name, file);
+    arrayOfSlashCommands.push(file)
+  });
+     await client.application?.commands.set(arrayOfSlashCommands) //for use for global use (1 hour caching process)
+
+    //await client.guilds.cache.get('560339741602480128').commands.set(arrayOfSlashCommands) //UNCOMMENT IF TESTING FOR DEVELOPMENT
+    //await client.guilds.cache.get('856412585862496266').commands.set(arrayOfSlashCommands)
 
     client.user.setActivity('t!help', { type: 'LISTENING' });
     console.log(`Logged in as ${client.user.tag}!`);
