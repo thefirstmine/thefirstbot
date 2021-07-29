@@ -37,7 +37,7 @@ module.exports = {
 								.setLabel('Invite me!')
 								.setStyle('LINK')
 								.setEmoji('🤖')
-								.setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=4228906231&scope=bot`),
+								.setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=261926808822&scope=bot%20applications.commands`),
 							new MessageButton()
 								.setLabel('Support server.')
 								.setStyle('LINK')
