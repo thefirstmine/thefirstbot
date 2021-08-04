@@ -33,7 +33,7 @@ client.modlogs = async function({ Member, Action, Color, Reason, Moderator, Coun
 
   if (Member) logsEmbed.addField("Member that was tooked action on", `${Member.user.tag} (${Member.id})`)
   if (Count) logsEmbed.addField("Count of messages that was deleted", Count.toString()) // Count
-  if (excChannel) logsEmbed.addField("Where they deleted messages", excChannel) //excChannel
+  if (excChannel) logsEmbed.addField("Where they deleted messages", excChannel.toString()) //excChannel
 
   channel.send({embeds: [logsEmbed]})
 }
