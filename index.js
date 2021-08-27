@@ -4,11 +4,99 @@ const Discord = require("discord.js");
 const fs = require("fs")
 const { prefix } = require('./config.json')
 const client = new Discord.Client({ 
-      intents: ['GUILDS' , 'GUILD_MESSAGES', 'GUILD_PRESENCES', 'GUILD_BANS'],
+      intents: ['GUILDS' , 'GUILD_MESSAGES', 'GUILD_PRESENCES', 'GUILD_BANS', 'GUILD_VOICE_STATES'],
    });
 
-//Custom Prefix handler
+// Custom Prefix handler
 const prefixSchema = require('./models/prefix')
+
+// Error handling
+const errorWebhook = new Discord.WebhookClient({url: `${process.env.ERROR_WEBHOOK_URL}`})
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at:', reason.stack || reason)
+  errorWebhook.send({
+    content: `Unhandled Rejection at:\`\`\`\n${reason.stack || reason}\`\`\``,
+    username: `${client.user.username}`,
+    avatarURL: `${client.user.avatarURL({size: 1024})}`,
+    split: true
+  })
+})
+process.on('uncaughtException', (err, origin) => {
+  console.log(err, origin)
+  errorWebhook.send({
+    content: `Uncaught Exception at:\`\`\`\n${err}\n${origin}\`\`\``,
+    username: `${client.user.username}`,
+    avatarURL: `${client.user.avatarURL({size: 1024})}`,
+    split: true
+  })
+})
+
+// Distube Initialization
+const Distube = require('distube')
+const { SoundCloudPlugin } = require('@distube/soundcloud')
+const { SpotifyPlugin } = require('@distube/spotify')
+client.distube = new Distube.default(client, {
+  searchSongs: 1,
+	searchCooldown: 10,
+	leaveOnEmpty: true,
+	emptyCooldown: 10,
+	leaveOnFinish: true,
+	leaveOnStop: true,
+	plugins: [new SoundCloudPlugin(), new SpotifyPlugin({
+    emitEventsAfterFetching: true,
+    api:{
+      clientId: process.env.SPOTIFY_CLIENTID,
+      clientSecret: process.env.SPOTIFY_CLIENTSECRET
+    }
+  })],
+})
+
+const status = queue =>
+  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ')
+  || 'Off'}\` | Loop: \`${queue.repeatMode
+    ? queue.repeatMode === 2
+      ? 'All Queue'
+      : 'This Song'
+    : 'Off'
+  }\``
+
+const eventEmbed = new Discord.MessageEmbed()
+.setColor("#FCBA03")
+
+client.distube.on('playSong', (queue, song) => {
+  eventEmbed.setDescription(`Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}`)
+  queue.textChannel.send({embeds: [eventEmbed]})
+  }).on('addSong', (queue, song) => {
+    eventEmbed.setDescription(`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`)
+    queue.textChannel.send({embeds: [eventEmbed]})
+  })
+  .on('addList', (queue, playlist) => {
+    eventEmbed.setDescription(`Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to queue\n${status(queue)}`)
+    queue.textChannel.send({embeds: [eventEmbed]})
+  })
+  /*.on('searchResult', (message, result) => {
+    let i = 0
+    message.channel.send(
+      `**Choose an option from below**\n${result
+        .map(
+          song =>
+            `**${++i}**. ${song.name} - \`${song.formattedDuration
+            }\``,
+        )
+        .join(
+          '\n',
+        )}\n*Enter anything else or wait 30 seconds to cancel*`,
+    )
+  })
+  .on('searchCancel', message => message.channel.send(`Searching canceled`))
+  .on('searchInvalidAnswer', message =>
+    message.channel.send(`searchInvalidAnswer`))
+  .on('searchNoResult', message => message.channel.send(`No result found!`))*/
+  .on('error', (textChannel, e) => {
+    console.error(e)
+    textChannel.send({content: `An error has occured! \`\`\`${e}\`\`\``, split: true})
+  })
 
 // Mongoose initialization
 const mongoose = require('mongoose')
@@ -33,7 +121,7 @@ client.modlogs = async function({ Member, Action, Color, Reason, Moderator, Coun
 
   if (Member) logsEmbed.addField("Member that was tooked action on", `${Member.user.tag} (${Member.id})`)
   if (Count) logsEmbed.addField("Count of messages that was deleted", Count.toString()) // Count
-  if (excChannel) logsEmbed.addField("Where they deleted messages", excChannel.toString()) //excChannel
+  if (excChannel) logsEmbed.addField("Channel where it was executed", excChannel.toString()) //excChannel
 
   channel.send({embeds: [logsEmbed]})
 }
@@ -69,7 +157,7 @@ client.on('ready', async () => {
     arrayOfSlashCommands.push(file)
   });
      await client.application?.commands.set(arrayOfSlashCommands) //for use for global use (1 hour caching process)
-
+  
     //await client.guilds.cache.get('560339741602480128').commands.set(arrayOfSlashCommands) //UNCOMMENT IF TESTING FOR DEVELOPMENT
     //await client.guilds.cache.get('856412585862496266').commands.set(arrayOfSlashCommands)
 
@@ -79,7 +167,7 @@ client.on('ready', async () => {
 
 client.on('interactionCreate', async interaction => {
   if(interaction.isCommand()) {
-    await interaction.defer().catch( () => {} );
+    await interaction.deferReply().catch( () => {} );
 
     const cmd = client.slashCommands.get(interaction.commandName);
     if(!cmd) return interaction.followUp({content: 'An error has occured'});
@@ -126,6 +214,15 @@ client.on('messageCreate', async message => {
       || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
     if (!command) return;
+
+    if(command.ownerOnly && message.member.id !== process.env.OWNER_ID) return;
+
+    if (command.voiceOnly && !message.member.voice.channel) {
+      let reply = "You need to be in a voice channel to execute this!"
+      message.reply({content: `${reply}`})
+    } else if (command.voiceOnly && !message.member.voice.channel.joinable) {
+      message.reply("I can't join this voice channel!")
+    }
 
     if (command.args && !args.length) {
       let reply = `You didn't provide any arguments, ${message.author}!`;

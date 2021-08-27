@@ -26,6 +26,7 @@ module.exports = {
 			.addField("⚙ Configuration", `${category({Category: "Config"})}`)
 			.addField("🦀 Miscellaneous", `${category({Category: "Miscellaneous"})}`)
 			.addField("🎬 Actions", `${category({Category: "Actions"})}`)
+			.addField("🎵 Music", `${category({Category: "Music"})}`)
 			.setColor("#FCBA03")
 			.setFooter("`[]` means required and `<>` means optional.")
 
@@ -60,6 +61,8 @@ module.exports = {
 		if (!command) {
 			return message.reply({content: 'That\'s not a valid command!'});
 		}
+
+		if(command.category === "Owner" && message.member.id !== process.env.OWNER_ID) return message.reply({content: 'That\'s not a valid command!'});
 
 		const embed = new Discord.MessageEmbed()
 		.setTitle(`**Name:** ${command.name}`)

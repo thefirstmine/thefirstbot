@@ -28,7 +28,7 @@ module.exports = {
         .catch(error => message.reply("there was an error trying to delete messages! Error: ```" + error + "```"))
         
 
-        const confirmMessage = await message.reply({content: `Deleted ${deleteCount} messages.`})
+        const confirmMessage = await message.channel.send({content: `Deleted ${deleteCount} messages.`})
         setTimeout(() => confirmMessage.delete(), 5000);
 	},
 };
