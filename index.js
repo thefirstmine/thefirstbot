@@ -37,6 +37,7 @@ const Distube = require('distube')
 const { SoundCloudPlugin } = require('@distube/soundcloud')
 const { SpotifyPlugin } = require('@distube/spotify')
 client.distube = new Distube.default(client, {
+  youtubeCookie: process.env.COOKIE,
   searchSongs: 1,
 	searchCooldown: 10,
 	leaveOnEmpty: true,
