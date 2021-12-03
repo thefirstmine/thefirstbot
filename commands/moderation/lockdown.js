@@ -29,7 +29,7 @@ module.exports = {
             }, message)
         } else {
             message.channel.permissionOverwrites.edit(message.guild.roles.everyone.id, {
-                SEND_MESSAGES: true,
+                SEND_MESSAGES: null,
             })
             .then(message.channel.send("✅ Channel unlocked."))
             client.modlogs({
