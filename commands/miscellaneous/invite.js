@@ -17,7 +17,7 @@ module.exports = {
 							.setLabel('Invite me!')
 							.setStyle('LINK')
 							.setEmoji('🤖')
-							.setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=261926808822&scope=bot%20applications.commands`),
+							.setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=1644372028662&scope=bot%20applications.commands`),
 					);
         
         message.author.send({embeds: [inviteEmbed], components: [row]})

@@ -9,7 +9,7 @@ module.exports = {
     args: true,
     usage: "[member]",
 	async execute(client, message, args) {
-        const tickle = await neko.sfw.tickle();
+        const tickle = await neko.tickle();
         
         let target;
         if (message.mentions.users.size) {

@@ -9,7 +9,7 @@ module.exports = {
     args: true,
     usage: "[member]",
 	async execute(client, message, args) {
-        const slap = await neko.sfw.slap();
+        const slap = await neko.slap();
         
         let target;
         if (message.mentions.users.size) {

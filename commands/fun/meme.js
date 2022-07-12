@@ -1,5 +1,4 @@
 const Discord = require('discord.js')
-const fetch = require('node-fetch')
 
 module.exports = {
 	name: 'meme',
@@ -13,7 +12,7 @@ module.exports = {
 
         const randSubs = subs[Math.floor(Math.random() * subs.length)]
 
-        fetch(`http://meme-api.herokuapp.com/gimme/${randSubs}`)
+        await fetch(`http://meme-api.herokuapp.com/gimme/${randSubs}`)
         .then(res => res.json())
         .then(json => {
             if(json.nsfw && !message.channel.nsfw) return message.reply("Sorry, there are no memes to be fetched right now, try executing the command again!")

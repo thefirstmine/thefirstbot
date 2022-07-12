@@ -11,7 +11,7 @@ module.exports = {
 	async execute(client, message, args) {
 
         const ballText = args.slice(0).join(' ')
-        const ballAnswered = await neko.sfw['8Ball']({text: ballText});
+        const ballAnswered = await neko.eightBall({text: ballText});
         
         await message.reply({content: ballAnswered.response})
 	},

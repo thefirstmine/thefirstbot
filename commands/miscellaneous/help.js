@@ -28,7 +28,7 @@ module.exports = {
 			.addField("🎬 Actions", `${category({Category: "Actions"})}`)
 			.addField("🎵 Music", `${category({Category: "Music"})}`)
 			.setColor("#FCBA03")
-			.setFooter("`[]` means required and `<>` means optional.")
+			.setFooter({text: "`[]` means required and `<>` means optional."})
 
 			const row = new MessageActionRow()
 			.addComponents(

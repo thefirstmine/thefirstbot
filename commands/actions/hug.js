@@ -9,7 +9,7 @@ module.exports = {
     args: true,
     usage: "[member]",
 	async execute(client, message, args) {
-        const hug = await neko.sfw.hug();
+        const hug = await neko.hug();
         
         let target;
         if (message.mentions.users.size) {

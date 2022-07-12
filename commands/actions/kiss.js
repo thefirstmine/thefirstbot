@@ -9,7 +9,7 @@ module.exports = {
     args: true,
     usage: "[member]",
 	async execute(client, message, args) {
-        const kiss = await neko.sfw.kiss();
+        const kiss = await neko.kiss();
         
         let target;
         if (message.mentions.users.size) {

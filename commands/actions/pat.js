@@ -9,7 +9,7 @@ module.exports = {
     args: true,
     usage: "[member]",
 	async execute(client, message, args) {
-        const pat = await neko.sfw.pat();
+        const pat = await neko.pat();
         
         let target;
         if (message.mentions.users.size) {
