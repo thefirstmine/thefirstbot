@@ -11,7 +11,7 @@ module.exports = {
         } else {
             let maxSymbols=15
             let bar = "━".repeat(maxSymbols).split('').map((v, i) => i == Math.trunc((queue.currentTime / queue.songs[0].duration) * maxSymbols) ? "🟡" : v).join('')
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
             .setTitle("Currently Playing:")
             .setDescription(`[${queue.songs[0].name}](${queue.songs[0].url})\n${queue.formattedCurrentTime} - ${queue.songs[0].formattedDuration}\n${bar}`)
             .setThumbnail(`${queue.songs[0].thumbnail}`)

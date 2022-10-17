@@ -20,7 +20,7 @@ module.exports = {
         }
         if (!target) return message.reply("invalid user.")
 
-        const kissEmbed = new Discord.MessageEmbed()
+        const kissEmbed = new Discord.EmbedBuilder()
         .setTitle(`${message.author.username} kisses ${target.user.username}! 😳`)
         .setColor("#FCBA03")
         .setImage(kiss.url)

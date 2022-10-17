@@ -21,7 +21,7 @@ module.exports = {
         } else {
             target = interaction.guild.members.cache.get(user)
         }
-        const avatarEmbed = new Discord.MessageEmbed()
+        const avatarEmbed = new Discord.EmbedBuilder()
         .setTitle(`${target.user.username}\'s avatar!`)
         .setImage(target.user.avatarURL({dynamic: true, size: 1024}))
         .setColor("#FCBA03")

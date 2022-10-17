@@ -20,7 +20,7 @@ module.exports = {
         }
         if (!target) return message.reply("invalid user.")
 
-        const slapEmbed = new Discord.MessageEmbed()
+        const slapEmbed = new Discord.EmbedBuilder()
         .setTitle(`${message.author.username} slaps ${target.user.username}! Ouch.`)
         .setColor("#FCBA03")
         .setImage(slap.url)

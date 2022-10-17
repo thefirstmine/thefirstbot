@@ -9,6 +9,6 @@ module.exports = {
         const query = args.join(" ")
         if(!query) return message.reply("Please enter a song name/link!")
         
-        await client.distube.play(message, query)
+        await client.distube.play(message.member.voice.channel, query)
 	},
 };

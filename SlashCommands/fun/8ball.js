@@ -18,7 +18,7 @@ module.exports = {
         const [question] = args;
         const ballAnswered = await neko.sfw['8Ball']({text: question});
         
-        const embed = new Discord.MessageEmbed()
+        const embed = new Discord.EmbedBuilder()
         .setTitle("I have answered.")
         .setDescription(`Your question was: \`${question}\`\nMy answer is, ${ballAnswered.response}`)
         .setColor("#FCBA03")

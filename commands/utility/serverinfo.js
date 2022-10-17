@@ -8,7 +8,7 @@ module.exports = {
 	async execute (client, message, args) {
         const owner = message.guild.members.cache.get(message.guild.ownerId)
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new Discord.EmbedBuilder()
         .setTitle(message.guild.name)
         .setThumbnail(message.guild.iconURL({dynamic: true}))
         .setDescription('Server Info!')

@@ -20,7 +20,7 @@ module.exports = {
         }
         if (!target) return message.reply("invalid user.")
 
-        const patEmbed = new Discord.MessageEmbed()
+        const patEmbed = new Discord.EmbedBuilder()
         .setTitle(`${message.author.username} pats ${target.user.username}!`)
         .setColor("#FCBA03")
         .setImage(pat.url)

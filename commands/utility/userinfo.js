@@ -31,7 +31,7 @@ module.exports = {
             statusEmoji = '<:online:865218105353306133>'
         }
 
-        const userEmbed = new Discord.MessageEmbed()
+        const userEmbed = new Discord.EmbedBuilder()
         .setTitle("User info")
         .setDescription(statusEmoji)
         .addField("Username and tag:", `${target.user.tag}`)

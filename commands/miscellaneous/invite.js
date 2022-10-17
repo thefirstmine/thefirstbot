@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Invite the bot to your own servers!s',
     category: "Miscellaneous",
 	execute(client, message, args) {
-        const inviteEmbed = new Discord.MessageEmbed()
+        const inviteEmbed = new Discord.EmbedBuilder()
         .setTitle("Invite the bot!")
         .setColor("#FCBA03")
         .setThumbnail("https://cdn.discordapp.com/attachments/856788504297078814/861179931718844446/thefirstbot.png")

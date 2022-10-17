@@ -35,7 +35,7 @@ module.exports = {
         }
 
 
-        const userEmbed = new Discord.MessageEmbed()
+        const userEmbed = new Discord.EmbedBuilder()
         .setTitle("User info")
         .setDescription(statusEmoji)
         .addField("Username and tag:", `${target.user.tag}`)

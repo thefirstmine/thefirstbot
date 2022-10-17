@@ -17,7 +17,7 @@ module.exports = {
 				return filter.map(c => c.name).join(', ');
 			}
 			
-			const helpEmbed = new Discord.MessageEmbed()
+			const helpEmbed = new Discord.EmbedBuilder()
 			.setTitle("Here's a list of all my commands!")
 			.setDescription(`You can send \`${prefix}help [command name]\` to get info on a specific command!`)
 			.addField("🤡 Fun", `${category({Category: "Fun"})}`)
@@ -64,7 +64,7 @@ module.exports = {
 
 		if(command.category === "Owner" && message.member.id !== process.env.OWNER_ID) return message.reply({content: 'That\'s not a valid command!'});
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 		.setTitle(`**Name:** ${command.name}`)
 		.setColor("#FCBA03")
 

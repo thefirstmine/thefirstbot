@@ -16,7 +16,7 @@ module.exports = {
                 return acc;
             }, [])
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
             .setTitle(`Current Queue for ${message.guild.name}`)
             .setDescription(`${list[index].join('\n')}`)
             .setColor("#FCBA03")
@@ -66,7 +66,7 @@ module.exports = {
                         index = listOfSongs2
                         break;
                 }
-                const paginated = new Discord.MessageEmbed()
+                const paginated = new Discord.EmbedBuilder()
                 .setTitle(`Current Queue for ${message.guild.name}`)
                 .setDescription(`${list[index].join('\n')}`)
                 .setColor("#FCBA03")

@@ -9,7 +9,7 @@ module.exports = {
 
         const owner = interaction.guild.members.cache.get(interaction.guild.ownerId)
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new Discord.EmbedBuilder()
         .setTitle(interaction.guild.name)
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
         .setDescription('Server Info!')

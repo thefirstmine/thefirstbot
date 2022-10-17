@@ -19,7 +19,7 @@ module.exports = {
         }
         if (!target) return message.reply("invalid user.")
 
-        const avatarEmbed = new Discord.MessageEmbed()
+        const avatarEmbed = new Discord.EmbedBuilder()
         .setTitle(`${target.user.username}\'s avatar!`)
         .setImage(target.user.avatarURL({dynamic: true, size: 1024}))
         .setColor("#FCBA03")

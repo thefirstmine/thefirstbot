@@ -5,7 +5,7 @@ module.exports = {
 	description: 'About the bot and the developer',
         category: "Miscellaneous",
 	execute(client, message, args) {
-        const aboutEmbed = new Discord.MessageEmbed()
+        const aboutEmbed = new Discord.EmbedBuilder()
         .setTitle("About")
         .setDescription("Originally developed in 2018, revived in 2021, made by TheFirstMine_PH#6062.\n\n[GitHub source code](https://github.com/thefirstmine/thefirstbot)")
         .setColor("#FCBA03")

@@ -20,7 +20,7 @@ module.exports = {
         }
         if (!target) return message.reply("invalid user.")
 
-        const hugEmbed = new Discord.MessageEmbed()
+        const hugEmbed = new Discord.EmbedBuilder()
         .setTitle(`${message.author.username} hugs ${target.user.username}! Aww`)
         .setColor("#FCBA03")
         .setImage(hug.url)

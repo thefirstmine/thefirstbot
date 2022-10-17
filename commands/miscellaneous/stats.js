@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 require("moment-duration-format");
 const cpuStat = require("cpu-stat");
 const moment = require("moment");
@@ -16,7 +16,7 @@ module.exports = {
         }
         const duration = moment.duration(message.client.uptime).format(" D[d], H[h], m[m]");
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
         embed.setColor("#FCBA03")
         embed.setTitle(`Stats for ${client.user.username}!`)
         embed.addFields({

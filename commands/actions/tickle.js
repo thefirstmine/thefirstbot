@@ -20,7 +20,7 @@ module.exports = {
         }
         if (!target) return message.reply("invalid user.")
 
-        const tickleEmbed = new Discord.MessageEmbed()
+        const tickleEmbed = new Discord.EmbedBuilder()
         .setTitle(`${message.author.username} tickles ${target.user.username}!`)
         .setColor("#FCBA03")
         .setImage(tickle.url)

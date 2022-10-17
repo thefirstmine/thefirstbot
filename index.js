@@ -3,33 +3,34 @@ require('dotenv').config()
 const Discord = require("discord.js");
 const fs = require("fs")
 const { prefix } = require('./config.json')
+const { GatewayIntentBits } = require('discord.js');
 const client = new Discord.Client({ 
-      intents: ['GUILDS' , 'GUILD_MESSAGES', 'GUILD_PRESENCES', 'GUILD_BANS', 'GUILD_VOICE_STATES'],
+      intents: [GatewayIntentBits.Guilds , GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildBans, GatewayIntentBits.GuildVoiceStates],
    });
 
 // Custom Prefix handler
 const prefixSchema = require('./models/prefix')
 
 // Error handling
-const errorWebhook = new Discord.WebhookClient({url: `${process.env.ERROR_WEBHOOK_URL}`})
+//const errorWebhook = new Discord.WebhookClient({url: `${process.env.ERROR_WEBHOOK_URL}`})
 
 process.on('unhandledRejection', (reason, promise) => {
   console.log('Unhandled Rejection at:', reason.stack || reason)
-  errorWebhook.send({
+  /*errorWebhook.send({
     content: `Unhandled Rejection at:\`\`\`\n${reason.stack || reason}\`\`\``,
     username: `${client.user.username}`,
     avatarURL: `${client.user.avatarURL({size: 1024})}`,
     split: true
-  })
+  })*/
 })
 process.on('uncaughtException', (err, origin) => {
   console.log(err, origin)
-  errorWebhook.send({
+  /*errorWebhook.send({
     content: `Uncaught Exception at:\`\`\`\n${err}\n${origin}\`\`\``,
     username: `${client.user.username}`,
     avatarURL: `${client.user.avatarURL({size: 1024})}`,
     split: true
-  })
+  })*/
 })
 
 // Distube Initialization
@@ -62,7 +63,7 @@ const status = queue =>
     : 'Off'
   }\``
 
-const eventEmbed = new Discord.MessageEmbed()
+const eventEmbed = new Discord.EmbedBuilder()
 .setColor("#FCBA03")
 
 client.distube.on('playSong', (queue, song) => {
@@ -114,7 +115,7 @@ client.modlogs = async function({ Member, Action, Color, Reason, Moderator, Coun
   if (!data) return;
   
   const channel = message.guild.channels.cache.get(data.Channel);
-  const logsEmbed = new Discord.MessageEmbed()
+  const logsEmbed = new Discord.EmbedBuilder()
   .setTitle(Action)
   .setColor(Color)
   .setDescription(`Reason: ${Reason || 'No reason was provided!'}`)
@@ -153,14 +154,13 @@ client.on('ready', async () => {
   slashFolders.map((value) => {
     const file = require(value);
     if(!file?.name) return;
-    
     client.slashCommands.set(file.name, file);
     arrayOfSlashCommands.push(file)
   });
-     await client.application?.commands.set(arrayOfSlashCommands) //for use for global use (1 hour caching process)
+    //await client.application?.commands.set(arrayOfSlashCommands) //for use for global use (1 hour caching process)
   
     //await client.guilds.cache.get('560339741602480128').commands.set(arrayOfSlashCommands) //UNCOMMENT IF TESTING FOR DEVELOPMENT
-    //await client.guilds.cache.get('856412585862496266').commands.set(arrayOfSlashCommands)
+    await client.guilds.cache.get('856412585862496266').commands.set(arrayOfSlashCommands)
 
     client.user.setActivity('t!help', { type: 'LISTENING' });
     console.log(`Logged in as ${client.user.tag}!`);
@@ -203,7 +203,7 @@ client.on('messageCreate', async message => {
   const prefixRegex = new RegExp(
     `^(${prefix}|${fetchprefix})\\s*`
   );
-  
+
   if (prefixRegex.test(message.content)){
   
     const [, matchedPrefix] = message.content.match(prefixRegex);

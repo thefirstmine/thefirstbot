@@ -19,7 +19,7 @@ module.exports = {
             if(!json) return message.reply("Sorry, there are no memes to be fetched right now, try executing the command again!")
             
             const title = json.title.toString()
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
             .setAuthor(`${title}`, null, `${json.postLink}`)
             .setImage(`${json.url}`)
             .setColor("RANDOM")
